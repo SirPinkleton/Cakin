@@ -3,8 +3,8 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 18
-  productGUID: 650e781f5d005b44ca41691b97671742
+  serializedVersion: 17
+  productGUID: b21856a3a0ffcba4f8a0cebb3928e862
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Cakin
+  productName: MAKE THAT CAKE
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -49,11 +49,11 @@ PlayerSettings:
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
-  m_StackTraceTypes: 010000000100000001000000010000000100000001000000
+  m_StackTraceTypes: 020000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
-  displayResolutionDialog: 0
-  iosUseCustomAppBackgroundBehavior: 0
+  iosAppInBackgroundBehavior: 0
+  displayResolutionDialog: 1
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
@@ -80,7 +80,6 @@ PlayerSettings:
   usePlayerLog: 1
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
-  useFlipModelSwapchain: 1
   resizableWindow: 0
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
@@ -151,8 +150,6 @@ PlayerSettings:
       sharedDepthBuffer: 1
       dashSupport: 1
       lowOverheadMode: 0
-      protectedContext: 0
-      v2Signing: 0
     enable360StereoCapture: 0
   isWsaHolographicRemotingEnabled: 0
   protectGraphicsMemory: 0
@@ -167,7 +164,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 19
+  AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -182,10 +179,10 @@ PlayerSettings:
   StripUnusedMeshComponents: 1
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
-  iOSTargetOSVersionString: 10.0
+  iOSTargetOSVersionString: 9.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
-  tvOSTargetOSVersionString: 10.0
+  tvOSTargetOSVersionString: 9.0
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
@@ -254,12 +251,12 @@ PlayerSettings:
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
   clonedFromGUID: 5f34be1353de5cf4398729fda238591b
-  templatePackageId: com.unity.template.2d@3.2.5
+  templatePackageId: com.unity.template.2d@3.1.0
   templateDefaultScene: Assets/Scenes/SampleScene.unity
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
+  AndroidKeystoreName: '{inproject}: '
   AndroidKeyaliasName: 
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
@@ -274,7 +271,7 @@ PlayerSettings:
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
   AndroidValidateAppBundleSize: 1
-  AndroidAppBundleSizeToValidate: 150
+  AndroidAppBundleSizeToValidate: 100
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons: []
   m_BuildTargetPlatformIcons: []
@@ -284,10 +281,10 @@ PlayerSettings:
     m_APIs: 150000000b000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
+  m_BuildTargetEnableVuforiaSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
-  vuforiaEnabled: 0
   m_TemplateCustomTags: {}
   mobileMTRendering:
     Android: 1
@@ -403,7 +400,6 @@ PlayerSettings:
   switchRatingsInt_9: 0
   switchRatingsInt_10: 0
   switchRatingsInt_11: 0
-  switchRatingsInt_12: 0
   switchLocalCommunicationIds_0: 
   switchLocalCommunicationIds_1: 
   switchLocalCommunicationIds_2: 
@@ -419,7 +415,7 @@ PlayerSettings:
   switchDataLossConfirmation: 0
   switchUserAccountLockEnabled: 0
   switchSystemResourceMemory: 16777216
-  switchSupportedNpadStyles: 22
+  switchSupportedNpadStyles: 3
   switchNativeFsCacheSize: 32
   switchIsHoldTypeHorizontal: 0
   switchSupportedNpadCount: 8
@@ -587,7 +583,6 @@ PlayerSettings:
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
   XboxOneXTitleMemory: 8
-  xboxOneScriptCompiler: 1
   XboxOneOverrideIdentityName: 
   vrEditorSettings:
     daydream:
@@ -606,7 +601,7 @@ PlayerSettings:
   luminVersion:
     m_VersionCode: 1
     m_VersionName: 
-  facebookSdkVersion: 
+  facebookSdkVersion: 7.9.4
   facebookAppId: 
   facebookCookies: 1
   facebookLogging: 1
@@ -621,4 +616,4 @@ PlayerSettings:
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
-  legacyClampBlendShapeWeights: 0
+  legacyClampBlendShapeWeights: 1
