@@ -5,20 +5,18 @@ using UnityEngine;
 public class GenerateRamp : MonoBehaviour
 {
     [SerializeField] GameObject initialRamp;
-    [SerializeField] float xPositionAdjustment = -10;
     // Start is called before the first frame update
     void Start()
     {
-        initialRamp = gameObject;
-
         for (int i = 1; i < 90; i++)
         {
             Transform initialRampTransform = initialRamp.GetComponent<Transform>();
-            float newXPosition = initialRampTransform.position.x + (i * xPositionAdjustment);
-            float newYPosition = initialRampTransform.position.y + i;
-
+            float newXPosition = initialRampTransform.position.x - (i * initialRampTransform.localScale.x);
+            float newYPosition = initialRampTransform.position.y + i*.05f;
+            Debug.Log($"new x: {newXPosition}, new y: {newYPosition}");
             GameObject nextRampPart;
-            nextRampPart = Instantiate(initialRamp, new Vector3(newXPosition, newYPosition, initialRampTransform.position.z), new Quaternion(0,0,(-1*i),0));
+            nextRampPart = Instantiate(initialRamp, new Vector3(newXPosition, newYPosition, initialRampTransform.position.z), Quaternion.Euler(new Vector3(0,0,-1*i)),this.transform);
+            Debug.Log($"new x: {newXPosition}, new y: {newYPosition}");
 
             nextRampPart.name = $"ramp-at-degree-{i}";
         }
