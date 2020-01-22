@@ -16,6 +16,7 @@ public class Platformer : MonoBehaviour
 
     // stats
     [SerializeField] float _baseSpeed;
+    [SerializeField] float _maxSpeed;
     [SerializeField] int _baseJumps;
     [SerializeField] int _jumpsRemaining;
     [SerializeField] float _jumpMultiplier;
@@ -93,9 +94,35 @@ public class Platformer : MonoBehaviour
 
     void Move()
     {
+        //Debug.Log($"x movement before applying move: {rigidbody.velocity.x}");
+        float startingXMovement = rigidbody.velocity.x;
+        
         float xDirection = Input.GetAxisRaw("Horizontal");
-        float xMovement = xDirection * _baseSpeed;
+        //Debug.Log($"x direction: {xDirection}");
+        float xDesiredMovement = xDirection * _baseSpeed;
+        //Debug.Log($"xDesiredMovement: {xDesiredMovement}");
+        float xMovementWithMomentum = xDesiredMovement + startingXMovement;
+        //Debug.Log($"xMovementWithMomentum: {xMovementWithMomentum}");
+
+        //move towards a static value, in case player is slowing to a stop or has been pushed
+        float xMovement = 0;
+        if (xMovementWithMomentum > _maxSpeed)
+        {
+            //Debug.Log($"moving too fast to the right, applying drag");
+            xMovement = xMovementWithMomentum - _baseSpeed;
+        }
+        else if (xMovementWithMomentum < -1*_maxSpeed)
+        {
+            //Debug.Log($"moving too fast to the left, applying drag");
+            xMovement = xMovementWithMomentum + _baseSpeed;
+        }
+        else
+        {
+            xMovement = xMovementWithMomentum;
+        }
+
         rigidbody.velocity = new Vector2(xMovement, rigidbody.velocity.y);
+        //Debug.Log($"x movement after applying move: {rigidbody.velocity}");
 
         Jump();
     }
