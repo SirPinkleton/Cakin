@@ -26,6 +26,8 @@ public class Platformer : MonoBehaviour
     float _jumpBegan;
     [SerializeField] float _lastTimeGrounded;
     [SerializeField] float _groundedForgivenessTime;
+
+    // Is Functions
     public bool IsGrounded
     {
         get
