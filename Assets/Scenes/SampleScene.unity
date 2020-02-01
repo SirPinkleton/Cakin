@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 273041765}
   - component: {fileID: 273041764}
   - component: {fileID: 273041763}
-  - component: {fileID: 273041768}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -193,10 +192,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8192
-  collectibles:
-    serializedVersion: 2
-    m_Bits: 131072
-  _inventoryManager: {fileID: 1577758317}
 --- !u!50 &273041765
 Rigidbody2D:
   serializedVersion: 4
@@ -282,32 +277,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &273041768
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273041762}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +760,7 @@ GameObject:
   - component: {fileID: 1426787071}
   - component: {fileID: 1426787072}
   - component: {fileID: 1426787073}
+  - component: {fileID: 1426787074}
   m_Layer: 17
   m_Name: Sugar
   m_TagString: Untagged
@@ -887,6 +857,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1426787074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426787070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db06cb6023c31c64c8cc6790e45f4ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _numInStack: 1
+  _inventoryManager: {fileID: 1577758317}
 --- !u!1 &1508116224
 GameObject:
   m_ObjectHideFlags: 0

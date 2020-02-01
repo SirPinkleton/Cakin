@@ -19,7 +19,6 @@ public class IngredientManager : MonoBehaviour
 
     void InitializeInventory(int flours = 0, int milks = 0, int sugars = 0)
     {
-        var inventory = new Dictionary<string, int>();
         // would be nice here to dynamically load inventory from a file elsewhere, maybe as enums or populating from a list of gameobjects/sprites
         inventory.Add("Flour", flours);
         inventory.Add("Milk", milks);

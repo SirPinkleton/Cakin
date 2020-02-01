@@ -76,10 +76,6 @@ public class Platformer : MonoBehaviour
 
     // external/world
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] LayerMask collectibleLayer;
-
-    // managers
-    [SerializeField] IngredientManager _inventoryManager;
 
     void Start()
     {
@@ -131,15 +127,6 @@ public class Platformer : MonoBehaviour
         //Debug.Log($"x movement after applying move: {rigidbody.velocity}");
 
         Jump();
-    }
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.layer == collectibleLayer)
-        {
-            _inventoryManager.UpdateInventory(collider.gameObject.name, 1);
-            Destroy(collider.gameObject);
-        }
     }
 
     void Jump()
