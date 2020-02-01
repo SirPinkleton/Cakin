@@ -75,7 +75,7 @@ public class Platformer : MonoBehaviour
     }
 
     // external/world
-    public LayerMask groundLayer;
+    [SerializeField] LayerMask groundLayer;
 
     void Start()
     {
@@ -85,7 +85,7 @@ public class Platformer : MonoBehaviour
 
     // called once per frame
     void Update()
-    {        
+    {
         if (IsGrounded)
         {
             _jumpsRemaining = _baseJumps;
