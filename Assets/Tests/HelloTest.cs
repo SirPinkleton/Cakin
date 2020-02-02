@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace Tests
 {
@@ -72,14 +73,40 @@ namespace Tests
             var newHeight = player.transform.position.y;
             Debug.Log($@"new height: {newHeight}");
             Assert.True(newHeight > initialHeight);
-
-            yield return null;
         }
 
         [UnityTest]
         public IEnumerator TurnSpeedTest()
         {
+            SceneManager.LoadScene("Assets/Scenes/SampleScene.unity");
+
+            yield return new WaitForSeconds(0.1f);
+
+            var player = GameObject.Find("Player");
+            var script = player.GetComponent<Platformer>();
+            //move to the right, full speed, for a few frames
+            script.pressingRight = true;
+            script._rigidbody.velocity = new Vector2(script._maxSpeed, 0);
+            yield return new WaitForSeconds(0.2f);
+            
+            //get initial place
+            var positionBeforeChange = player.transform.position.x;
+            Debug.Log($@"position before movement is swapped: {positionBeforeChange}");
+            script.pressingRight = false;
+            script.pressingLeft = true;
+
+            //wait one frame
             yield return null;
+            
+            //we've just changed momentum, but how much?
+            var positionAfterChange = player.transform.position.x;
+            Debug.Log($@"position after movement is swapped: {positionAfterChange}");
+
+            var differenceInChange = Math.Abs(positionAfterChange - positionBeforeChange);
+            Debug.Log($@"difference from before and after change: {differenceInChange}");
+
+            //player's momentum shouldn't be too strong
+            Assert.True(differenceInChange < 0.11f);
         }
 
         [TearDown]
