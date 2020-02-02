@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
 
 namespace Tests
 {
@@ -42,5 +43,50 @@ namespace Tests
         }
 
         //void RetryAction()
+    }
+
+    public class MovementTests
+    {
+        [UnityTest]
+        public IEnumerator CanJump()
+        {
+            SceneManager.LoadScene("Assets/Scenes/SampleScene.unity");
+
+            yield return new WaitForSeconds(0.1f);
+
+            var player = GameObject.Find("Player");
+
+            //get initial place
+            var initialHeight = player.transform.position.y;
+            Debug.Log($@"initial height: {initialHeight}");
+            yield return new WaitForSeconds(0.1f);
+
+            //press space
+            var script = player.GetComponent<Platformer>();
+            script.pressingJump = true;
+
+            //allow time to pass, for part of jump to happen
+            yield return new WaitForSeconds(0.2f);
+
+            //player should be higher
+            var newHeight = player.transform.position.y;
+            Debug.Log($@"new height: {newHeight}");
+            Assert.True(newHeight > initialHeight);
+
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator TurnSpeedTest()
+        {
+            yield return null;
+        }
+
+        [TearDown]
+        public void AfterEveryTest()
+        {
+            //foreach (var object in GameObject.Find(everything))
+            //{Object.Destroy(object)}
+        }
     }
 }
