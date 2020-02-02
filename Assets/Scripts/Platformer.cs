@@ -136,9 +136,9 @@ public class Platformer : MonoBehaviour
 
     void Jump()
     {
-        Debug.Log($"jump function entered. pressing jump debug bool: {pressingJump}");
+        //Debug.Log($"jump function entered. pressing jump debug bool: {pressingJump}");
         bool tryingToJump = pressingJump == false ? Input.GetKeyDown(KeyCode.Space) : true;
-        Debug.Log($"trying to jump: {tryingToJump}");
+        //Debug.Log($"trying to jump: {tryingToJump}");
 
         if (CanJump && tryingToJump)
         {
