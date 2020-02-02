@@ -27,6 +27,11 @@ public class Platformer : MonoBehaviour
     [SerializeField] float _lastTimeGrounded;
     [SerializeField] float _groundedForgivenessTime;
 
+    // Debug Variables
+    public bool pressingRight = false;
+    public bool pressingLeft = false;
+    public bool pressingJump = false;
+
     // Is Functions
     public bool IsGrounded
     {
@@ -99,7 +104,7 @@ public class Platformer : MonoBehaviour
         //Debug.Log($"x movement before applying move: {rigidbody.velocity.x}");
         float startingXMovement = rigidbody.velocity.x;
         
-        float xDirection = Input.GetAxisRaw("Horizontal");
+        float xDirection = pressingRight == false ? (pressingLeft == false ? Input.GetAxisRaw("Horizontal") : -1) : 1;
         //Debug.Log($"x direction: {xDirection}");
         float xDesiredMovement = xDirection * _baseSpeed;
         //Debug.Log($"xDesiredMovement: {xDesiredMovement}");
@@ -131,7 +136,9 @@ public class Platformer : MonoBehaviour
 
     void Jump()
     {
-        bool tryingToJump = Input.GetKeyDown(KeyCode.Space);
+        Debug.Log($"jump function entered. pressing jump debug bool: {pressingJump}");
+        bool tryingToJump = pressingJump == false ? Input.GetKeyDown(KeyCode.Space) : true;
+        Debug.Log($"trying to jump: {tryingToJump}");
 
         if (CanJump && tryingToJump)
         {
