@@ -8,6 +8,8 @@ public class IngredientManager : MonoBehaviour
 {
     Dictionary<string, int> currentInventory = new Dictionary<string, int>(); // public getter private setter
     
+    int _maxIngredients = 5;
+
     [SerializeField] UIManager _UIManager;
 
     //def some ingreds - game objects to display?
@@ -37,7 +39,8 @@ public class IngredientManager : MonoBehaviour
     //call from platformer/player script
     public void UpdateInventory(string ingredientName, int changeInTotal)
     {
-        currentInventory[ingredientName] += changeInTotal;
+        int currentAmmount = currentInventory[ingredientName] + changeInTotal;
+        currentInventory[ingredientName] = currentAmmount > _maxIngredients ? _maxIngredients : currentAmmount;
         _UIManager.UpdateIngredientUI(currentInventory);
     }
 }
