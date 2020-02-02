@@ -8,14 +8,10 @@ public class UIManager : MonoBehaviour
 {
     string _ingredientText;
     [SerializeField] Text _uiIngredientTextComponent;
-    [SerializeField] Image _uiIngredientBackgroundComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        Color newBackColor = _uiIngredientBackgroundComponent.color;
-        newBackColor.a = 0.9f;
-        _uiIngredientBackgroundComponent.color = newBackColor;
     }
 
     // Update is called once per frame
