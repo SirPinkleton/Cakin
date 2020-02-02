@@ -1,0 +1,20 @@
+<startingIngredients>
+	<SampleScene>
+		<Flour value="5"/>
+		<Milk value="5"/>
+		<Sugar value="5"/>
+		<Egg-Whites value="5"/>
+		<Egg-Yolks value="5"/>
+		<Leaveners value="5"/>
+		<Extras value="5"/>
+	</SampleScene>
+	<GenericScene>
+		<Flour value="0"/>
+		<Milk value="0"/>
+		<Sugar value="0"/>
+		<Egg-Whites value="0"/>
+		<Egg-Yolks value="0"/>
+		<Leaveners value="0"/>
+		<Extras value="0"/>
+	</GenericScene>
+</startingIngredients>
