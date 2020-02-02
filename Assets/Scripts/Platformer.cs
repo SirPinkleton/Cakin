@@ -11,12 +11,12 @@ using UnityEngine;
 public class Platformer : MonoBehaviour
 {
     // physical components
-    new Rigidbody2D rigidbody;
+    public Rigidbody2D _rigidbody;
     [SerializeField] Transform _groundBumper;
 
     // stats
     [SerializeField] float _baseSpeed;
-    [SerializeField] float _maxSpeed;
+    [SerializeField] public float _maxSpeed;
     [SerializeField] int _baseJumps;
     [SerializeField] int _jumpsRemaining;
     [SerializeField] float _jumpMultiplier;
@@ -45,14 +45,14 @@ public class Platformer : MonoBehaviour
     {
         get
         {
-            return rigidbody.velocity.y < 0;
+            return _rigidbody.velocity.y < 0;
         }
     }
     public bool IsRising
     {
         get
         {
-            return rigidbody.velocity.y > 0;
+            return _rigidbody.velocity.y > 0;
         }
     }
     public bool HasGoodFooting
@@ -84,7 +84,7 @@ public class Platformer : MonoBehaviour
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _jumpsRemaining = _baseJumps;
     }
 
@@ -102,7 +102,7 @@ public class Platformer : MonoBehaviour
     void Move()
     {
         //Debug.Log($"x movement before applying move: {rigidbody.velocity.x}");
-        float startingXMovement = rigidbody.velocity.x;
+        float startingXMovement = _rigidbody.velocity.x;
         
         float xDirection = pressingRight == false ? (pressingLeft == false ? Input.GetAxisRaw("Horizontal") : -1) : 1;
         //Debug.Log($"x direction: {xDirection}");
@@ -128,7 +128,7 @@ public class Platformer : MonoBehaviour
             xMovement = xMovementWithMomentum;
         }
 
-        rigidbody.velocity = new Vector2(xMovement, rigidbody.velocity.y);
+        _rigidbody.velocity = new Vector2(xMovement, _rigidbody.velocity.y);
         //Debug.Log($"x movement after applying move: {rigidbody.velocity}");
 
         Jump();
@@ -142,11 +142,11 @@ public class Platformer : MonoBehaviour
 
         if (CanJump && tryingToJump)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, _leapDistance);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _leapDistance);
             _jumpBegan = Time.time;
             _jumpsRemaining--;
         }
-        if (IsFalling) rigidbody.velocity += Physics2D.gravity * Time.deltaTime;
-        else if (IsRising && !tryingToJump) rigidbody.velocity += Vector2.up * Physics2D.gravity * Time.deltaTime * _jumpMultiplier;
+        if (IsFalling) _rigidbody.velocity += Physics2D.gravity * Time.deltaTime;
+        else if (IsRising && !tryingToJump) _rigidbody.velocity += Vector2.up * Physics2D.gravity * Time.deltaTime * _jumpMultiplier;
     }
 }
