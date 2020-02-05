@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
+using System;
 
 namespace Tests
 {
@@ -42,5 +44,76 @@ namespace Tests
         }
 
         //void RetryAction()
+    }
+
+    public class MovementTests
+    {
+        [UnityTest]
+        public IEnumerator CanJump()
+        {
+            SceneManager.LoadScene("Assets/Scenes/SampleScene.unity");
+
+            yield return new WaitForSeconds(0.1f);
+
+            var player = GameObject.Find("Player");
+
+            //get initial place
+            var initialHeight = player.transform.position.y;
+            Debug.Log($@"initial height: {initialHeight}");
+            yield return new WaitForSeconds(0.1f);
+
+            //press space
+            var script = player.GetComponent<Platformer>();
+            script.pressingJump = true;
+
+            //allow time to pass, for part of jump to happen
+            yield return new WaitForSeconds(0.2f);
+
+            //player should be higher
+            var newHeight = player.transform.position.y;
+            Debug.Log($@"new height: {newHeight}");
+            Assert.True(newHeight > initialHeight);
+        }
+
+        [UnityTest]
+        public IEnumerator TurnSpeedTest()
+        {
+            SceneManager.LoadScene("Assets/Scenes/SampleScene.unity");
+
+            yield return new WaitForSeconds(0.1f);
+
+            var player = GameObject.Find("Player");
+            var script = player.GetComponent<Platformer>();
+            //move to the right, full speed, for a few frames
+            script.pressingRight = true;
+            script._rigidbody.velocity = new Vector2(script._maxSpeed, 0);
+            yield return new WaitForSeconds(0.2f);
+            
+            //get initial place
+            var positionBeforeChange = player.transform.position.x;
+            Debug.Log($@"position before movement is swapped: {positionBeforeChange}");
+            script.pressingRight = false;
+            script.pressingLeft = true;
+
+            //wait one frame
+            yield return null;
+            
+            //we've just changed momentum, but how much?
+            var positionAfterChange = player.transform.position.x;
+            Debug.Log($@"position after movement is swapped: {positionAfterChange}");
+
+            var differenceInChange = Math.Abs(positionAfterChange - positionBeforeChange);
+            Debug.Log($@"difference from before and after change: {differenceInChange}");
+
+            //player's momentum shouldn't be too strong
+            Assert.True(differenceInChange < 0.11f);
+        }
+
+        [TearDown]
+        public void AfterEveryTest()
+        {
+            //foreach (var object in GameObject.Find(everything))
+            //{Object.Destroy(object)}
+        }
     }
 }

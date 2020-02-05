@@ -178,8 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6940c010b2867a44850b751613a4f4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 0}
   _groundBumper: {fileID: 1587468495}
-  _baseSpeed: 2
+  _baseSpeed: 5
   _maxSpeed: 10
   _baseJumps: 2
   _jumpsRemaining: 0
@@ -189,6 +190,9 @@ MonoBehaviour:
   _distanceToMidair: 0.05
   _lastTimeGrounded: 0
   _groundedForgivenessTime: 0.1
+  pressingRight: 0
+  pressingLeft: 0
+  pressingJump: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8192
