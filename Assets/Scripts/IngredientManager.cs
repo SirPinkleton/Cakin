@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class IngredientManager : MonoBehaviour
 {
-    Dictionary<string, int> inventory = new Dictionary<string, int>(); // public getter private setter
-    string _ingredientText;
-    [SerializeField] Text _uiTextComponent;
+    Dictionary<string, int> currentInventory = new Dictionary<string, int>(); // public getter private setter
+    
+    int _maxIngredients = 5;
+
+    [SerializeField] UIManager _UIManager;
+
     //def some ingreds - game objects to display?
     //def some ingreds - num in inventory
 
@@ -17,27 +20,27 @@ public class IngredientManager : MonoBehaviour
         InitializeInventory();
     }
 
-    void InitializeInventory(int flours = 0, int milks = 0, int sugars = 0)
+    void InitializeInventory(string ingredientsToLoad = "GenericScene")
     {
         // would be nice here to dynamically load inventory from a file elsewhere, maybe as enums or populating from a list of gameobjects/sprites
-        inventory.Add("Flour", flours);
-        inventory.Add("Milk", milks);
-        inventory.Add("Sugar", sugars);
-        UpdateUI();
-    }
+        XElement startingIngredients = XElement.Load("Assets/InputFiles/StartingIngredients.xml");
+        
+        foreach (var kvp in startingIngredients.Descendants(ingredientsToLoad).Descendants())
+        {
+            Debug.Log($"name: {kvp.Name.LocalName}");
+            string val = kvp.Attribute("value").Value;
+            Debug.Log($"value: {val}");
+            currentInventory.Add(kvp.Name.LocalName, int.Parse(val));
+        }
 
-    // maybe move this to a UIManager later??
-    void UpdateUI()
-    {
-        //responsiveness?? maybe set up via the textbox settings instead
-        string ingredients = string.Join(" ", inventory.Select(i => $"{i.Key}: {i.Value}").ToList());
-        _uiTextComponent.text = ingredients;
+        _UIManager.UpdateIngredientUI(currentInventory);
     }
 
     //call from platformer/player script
     public void UpdateInventory(string ingredientName, int changeInTotal)
     {
-        inventory[ingredientName] += changeInTotal;
-        UpdateUI();
+        int currentAmmount = currentInventory[ingredientName] + changeInTotal;
+        currentInventory[ingredientName] = currentAmmount > _maxIngredients ? _maxIngredients : currentAmmount;
+        _UIManager.UpdateIngredientUI(currentInventory);
     }
 }
