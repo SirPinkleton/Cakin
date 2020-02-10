@@ -126,7 +126,7 @@ namespace Tests
         public void BeforeEveryTest()
         {
             var sceneFiles = System.IO.Directory.GetFiles("Assets/Scenes");
-            
+
             //starting at 1, 0 is index of test scene, not an actual scene
             foreach (var sceneFile in sceneFiles)
             {
@@ -165,10 +165,21 @@ namespace Tests
                 SceneManager.LoadScene(sceneName);
                 yield return new WaitForSeconds(0.1f);
 
-                //won't find on menu until enabled, since disabled by default...
-                var options = GameObject.Find("OptionsPanel");
+                //can't use GameObject.Find() as that skips over inactive elements like this menu
+                var allCurrentSceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
-                Assert.True(options != null, $"Options panel doesn't exist for current scene ({sceneName}), user cannot change options");
+                //search through all game objects to find the one for options panel
+                bool optionsFound = false;
+                foreach (var item in allCurrentSceneObjects)
+                {
+                    if (item.name == "OptionsPanel")
+                    {
+                        optionsFound = true;
+                        break;
+                    }
+                }
+
+                Assert.True(optionsFound, $"Options panel doesn't exist for current scene ({sceneName}), user cannot change options");
             }
         }
 
@@ -181,17 +192,28 @@ namespace Tests
             {
                 if (sceneName == "MainMenu")
                 {
-                    //Assert.Ignore("main menu doesn't require pause menu, ignoring");
+                    Debug.Log("main menu doesn't require pause menu, ignoring");
                     continue;
                 }
                 Debug.Log($"loading scene: {sceneName}");
                 SceneManager.LoadScene(sceneName);
                 yield return new WaitForSeconds(0.1f);
                 
-                //won't find on menu until enabled, since disabled by default...
-                var options = GameObject.Find("PausePanel");
+                //can't use GameObject.Find() as that skips over inactive elements like this menu
+                var allCurrentSceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
-                Assert.True(options != null, $"Pause panel doesn't exist for a scene ({sceneName}), user cannot pause/quit/etc.");
+                //search through all game objects to find the one for options panel
+                bool pauseFound = false;
+                foreach (var item in allCurrentSceneObjects)
+                {
+                    if (item.name == "PausePanel")
+                    {
+                        pauseFound = true;
+                        break;
+                    }
+                }
+
+                Assert.True(pauseFound, $"Pause panel doesn't exist for a scene ({sceneName}), user cannot pause/quit/etc.");
             }
         }
     }
