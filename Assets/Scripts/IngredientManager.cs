@@ -27,9 +27,9 @@ public class IngredientManager : MonoBehaviour
         
         foreach (var kvp in startingIngredients.Descendants(ingredientsToLoad).Descendants())
         {
-            Debug.Log($"name: {kvp.Name.LocalName}");
+            //Debug.Log($"name: {kvp.Name.LocalName}");
             string val = kvp.Attribute("value").Value;
-            Debug.Log($"value: {val}");
+            //Debug.Log($"value: {val}");
             currentInventory.Add(kvp.Name.LocalName, int.Parse(val));
         }
 
