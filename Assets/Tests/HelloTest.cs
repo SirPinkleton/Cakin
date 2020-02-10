@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 namespace Tests
 {
@@ -114,6 +115,84 @@ namespace Tests
         {
             //foreach (var object in GameObject.Find(everything))
             //{Object.Destroy(object)}
+        }
+    }
+
+    public class MenuTests
+    {
+        public List<string> allSceneNames = new List<string>();
+
+        [SetUp]
+        public void BeforeEveryTest()
+        {
+            var sceneFiles = System.IO.Directory.GetFiles("Assets/Scenes");
+            
+            //starting at 1, 0 is index of test scene, not an actual scene
+            foreach (var sceneFile in sceneFiles)
+            {
+                if (sceneFile.Contains(".meta"))
+                {
+                    continue;
+                }
+                //assets/scenes\mainmenu.unity
+                Debug.Log($"currently looking as scene file {sceneFile}");
+
+                //mainmenu.unity
+                string sceneFileName = sceneFile.Split('\\').Last();
+                Debug.Log($"scene filename found: {sceneFileName}");
+
+                //mainmenu
+                string sceneName = sceneFileName.Split('.').First();
+                Debug.Log($"scene name recorded: {sceneName}");
+                allSceneNames.Add(sceneName);
+            }
+
+            allSceneNames = allSceneNames.Distinct().ToList();
+
+            foreach(var thing in allSceneNames)
+            {
+                Debug.Log($"scene found: {thing}");
+            }
+        }
+
+        //for any level we'd run this test for, check if the options menu exists
+        [UnityTest]
+        public IEnumerator LevelHasOptionsPanel()
+        {
+            foreach (var sceneName in allSceneNames)
+            {
+                Debug.Log($"loading scene: {sceneName}");
+                SceneManager.LoadScene(sceneName);
+                yield return new WaitForSeconds(0.1f);
+
+                //won't find on menu until enabled, since disabled by default...
+                var options = GameObject.Find("OptionsPanel");
+
+                Assert.True(options != null, $"Options panel doesn't exist for current scene ({sceneName}), user cannot change options");
+            }
+        }
+
+        //doesn't make sense for the main menu, but for other levels, make sure the pause panel exists
+        [UnityTest]
+        public IEnumerator LevelHasPauseMenu()
+        {
+            //need to add each scene to build settings for test to function
+            foreach (var sceneName in allSceneNames)
+            {
+                if (sceneName == "MainMenu")
+                {
+                    //Assert.Ignore("main menu doesn't require pause menu, ignoring");
+                    continue;
+                }
+                Debug.Log($"loading scene: {sceneName}");
+                SceneManager.LoadScene(sceneName);
+                yield return new WaitForSeconds(0.1f);
+                
+                //won't find on menu until enabled, since disabled by default...
+                var options = GameObject.Find("PausePanel");
+
+                Assert.True(options != null, $"Pause panel doesn't exist for a scene ({sceneName}), user cannot pause/quit/etc.");
+            }
         }
     }
 }
