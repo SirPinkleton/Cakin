@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 namespace Tests
 {
@@ -114,6 +115,106 @@ namespace Tests
         {
             //foreach (var object in GameObject.Find(everything))
             //{Object.Destroy(object)}
+        }
+    }
+
+    public class MenuTests
+    {
+        public List<string> allSceneNames = new List<string>();
+
+        [SetUp]
+        public void BeforeEveryTest()
+        {
+            var sceneFiles = System.IO.Directory.GetFiles("Assets/Scenes");
+
+            //starting at 1, 0 is index of test scene, not an actual scene
+            foreach (var sceneFile in sceneFiles)
+            {
+                if (sceneFile.Contains(".meta"))
+                {
+                    continue;
+                }
+                //assets/scenes\mainmenu.unity
+                Debug.Log($"currently looking as scene file {sceneFile}");
+
+                //mainmenu.unity
+                string sceneFileName = sceneFile.Split('\\').Last();
+                Debug.Log($"scene filename found: {sceneFileName}");
+
+                //mainmenu
+                string sceneName = sceneFileName.Split('.').First();
+                Debug.Log($"scene name recorded: {sceneName}");
+                allSceneNames.Add(sceneName);
+            }
+
+            allSceneNames = allSceneNames.Distinct().ToList();
+
+            foreach(var thing in allSceneNames)
+            {
+                Debug.Log($"scene found: {thing}");
+            }
+        }
+
+        //for any level we'd run this test for, check if the options menu exists
+        [UnityTest]
+        public IEnumerator LevelHasOptionsPanel()
+        {
+            foreach (var sceneName in allSceneNames)
+            {
+                Debug.Log($"loading scene: {sceneName}");
+                SceneManager.LoadScene(sceneName);
+                yield return new WaitForSeconds(0.1f);
+
+                //can't use GameObject.Find() as that skips over inactive elements like this menu
+                var allCurrentSceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+                //search through all game objects to find the one for options panel
+                bool optionsFound = false;
+                foreach (var item in allCurrentSceneObjects)
+                {
+                    if (item.name == "OptionsPanel")
+                    {
+                        optionsFound = true;
+                        break;
+                    }
+                }
+
+                Assert.True(optionsFound, $"Options panel doesn't exist for current scene ({sceneName}), user cannot change options");
+            }
+        }
+
+        //doesn't make sense for the main menu, but for other levels, make sure the pause panel exists
+        [UnityTest]
+        public IEnumerator LevelHasPauseMenu()
+        {
+            //need to add each scene to build settings for test to function
+            foreach (var sceneName in allSceneNames)
+            {
+                if (sceneName == "MainMenu")
+                {
+                    Debug.Log("main menu doesn't require pause menu, ignoring");
+                    continue;
+                }
+                Debug.Log($"loading scene: {sceneName}");
+                SceneManager.LoadScene(sceneName);
+                yield return new WaitForSeconds(0.1f);
+                
+                //can't use GameObject.Find() as that skips over inactive elements like this menu
+                var allCurrentSceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+                //search through all game objects to find the one for options panel
+                bool pauseFound = false;
+                foreach (var item in allCurrentSceneObjects)
+                {
+                    if (item.name == "PausePanel")
+                    {
+                        pauseFound = true;
+                        break;
+                    }
+                }
+
+                Assert.True(pauseFound, $"Pause panel doesn't exist for a scene ({sceneName}), user cannot pause/quit/etc.");
+            }
         }
     }
 }
